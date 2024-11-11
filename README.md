@@ -28,8 +28,8 @@ The file also contains data(i).m_r which are the reacted amounts over time.
 The calculation of data(i).accum is made during the process of data(i).m_r calculation. 
 The data(i).val are the estimated rates at different cell growth phases, it is estimated using "/data/RatesEstimation.m"
 The latter is described in the supplementary material of this paper or the file "/data/read_me_data_processing.doc"
-
 The folder ~/GEM contains the GEM of the synthetic ODE model used data generation and "main_least_square_regression.m" which
 performes least square regression estimated rates vs predicted by the model) to show the model compatibility with the
 estimated rates
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------
