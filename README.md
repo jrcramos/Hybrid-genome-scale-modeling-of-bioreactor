@@ -70,19 +70,19 @@ Contains the core functions for the hybrid network toolbox (initialization, trai
 The dataset covers experiments Br1 - Br9 (see `data.xlsx`).
 
 ```text
-           Br5      
-            |
-            |
-  Br1 ----- Br2     
-   |        |
-   |        |
-  Br7 ----| Br9 |---- Br8
-   |        |
-   |        |
-  Br3 ----- Br4     
-            |       
-            |       
-           Br6      
+            Br5      
+             |
+             |
+      Br1 ----- Br2     
+         |        |
+         |        |
+ Br7 ----| Br9    |---- Br8
+         |        |
+         |        |
+        Br3 ----- Br4     
+             |       
+             |       
+            Br6      
 ```
 
 ## Contact
