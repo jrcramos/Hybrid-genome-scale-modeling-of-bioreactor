@@ -1,33 +1,91 @@
-# Hybrid-genome-scale-modeling-of-bioreactor
-Deep hybrid modeling of bioreactor cell culture data using neural networks embedded with a genome-scale model combined with first principles equations
+# Hybrid Deep Metabolic Network
 
-------------------------------------------------------------------------------------------------------------------------------------------------------
+**Embedding Genome-Scale Model within Neural Networks as a Layer**
 
-To run hybrid model training or simulation of two previously trained hybrid model
-use the code "hybnet_train_main.m"
-This codes shows how to define model structures and which parameter to use to run the
-training process. Furthemore, several ways to plot and analyse the results
+This repository contains the code and data for demostration of the method proposed in the paper:
+> **Hybrid Deep Metabolic Network: Embedding Genome-Scale Model within Neural Networks as a Layer**
+> *João R. C. Ramos, José Pinto, Ludovic Peeters, Patrick Dumas, Rui Oliveira*
 
-------------------------------------------------------------------------------------------------------------------------------------------------------
- This code "hybnet_train_main.m" comes with two predefined hybrid model structures one FFNN and
- one LSTM. Both structures were pre-trained and the data saved in  "hybrid_FFNN_1.mat"
- and "hybrid_LSTM_1.mat". It asks if the user wants to train these model structures again
- or simulate from saved files. Different plots are generated and a excel file
- "structures_fit_results.xlsx" with the overall results.
 
-The folder ~/data contains data.xlsx with the feed DoE details and the simulations of 
-concentrations over time generated using a dynamic model. This is a synthetic dataset,
-the model was created based on the metabolic model proposed by Robitaille et al. (2015).
-It also contains "data.mat" which is the import the concentrations, feed and other relevant 
-informations. This file is generated using "/data/main_data_processing.m". When imported into 
-matlab data(i).accum is the total amount of a metabolite that should be in the bioreactor over
-time, it is the "sum of all added concentrations × volume added - sample volume × reactor concentration". 
-The file also contains data(i).m_r which are the reacted amounts over time. 
-The calculation of data(i).accum is made during the process of data(i).m_r calculation. 
-The data(i).val are the estimated rates at different cell growth phases, it is estimated using "/data/RatesEstimation.m"
-The latter is described in the supplementary material of this paper or the file "/data/read_me_data_processing.doc"
-The folder ~/GEM contains the GEM of the synthetic ODE model used data generation and "main_least_square_regression.m" which
-performes least square regression estimated rates vs predicted by the model) to show the model compatibility with the
-estimated rates
+## Overview
+This toolbox implements a deep hybrid modeling approach for bioreactor cell culture data. It combines neural networks (FFNN or LSTM) with a genome-scale metabolic model (GEM) and first-principles equations.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------
+## Getting Started
+
+### Prerequisites
+- MATLAB (The code files are `.m` files)
+
+### Main Execution
+To run the hybrid model training or simulate using previously trained models, run the main script in MATLAB:
+`hybnet_train_main.m`
+
+When you run the script, a dialog box will appear asking you to choose between **Simulate** and **New training**.
+
+#### 1. Simulation Mode
+Select **"Simulate"** to load the pre-trained models (`hybrid_FFNN_1.mat` and `hybrid_LSTM_1.mat`) and generate results.
+This mode will:
+- Simulate the saved LSTM and FFNN models.
+- Generate comparison plots for concentrations (e.g., Br1 and Br6).
+- Plot normalized predictions vs. experimental concentrations for all experiments (Br1–Br9).
+- Plot predicted rates.
+
+#### 2. Training Mode
+Select **"New training"** to train the hybrid models from scratch.
+This mode will:
+- Define the hybrid model architectures (FFNN and LSTM) with the metabolic layer.
+- Use the parameters defined in the script (e.g., `niter=150000`, `nruns=1`).
+- Train the models using the specified training (Br1-Br4, Br9), cross-validation (Br7), and test (Br5, Br6, Br8) datasets.
+- Save the trained models to `.mat` files.
+- Export a summary of statistical results (RMSE, MSE, AIC, etc.) to `structures_fit_results.xlsx`.
+
+## Repository Structure
+
+### Root Directory
+- `hybnet_train_main.m`: Main entry point for training and simulation.
+- `hybrid_FFNN_1.mat` / `hybrid_LSTM_1.mat`: Pre-trained model files.
+- `runs.mat`: Saved run data.
+- `plot_*.m`: Various plotting scripts for paper figures.
+
+### /data
+Contains the dataset and processing scripts.
+- `data.xlsx`: Feed DoE details and concentration simulations (synthetic dataset based on Robitaille et al., 2015).
+- `data.mat`: Processed data structure containing:
+    - `data(i).accum`: Total amount of metabolite in bioreactor (accumulated).
+    - `data(i).m_r`: Reacted amounts over time.
+    - `data(i).val`: Estimated rates at different growth phases.
+- `main_data_processing.m`: Script used to generate `data.mat`.
+- `RatesEstimation.m`: Script for estimating rates (`data(i).val`).
+- `read_me_data_processing.doc`: Supplementary material describing data processing.
+
+### /GEM
+Contains the Genome-Scale Metabolic Model.
+- `model.mat`: The GEM file.
+- `main_least_square_regression.m`: Performs regression of estimated rates vs. model predictions to validate compatibility.
+
+### /hybnet
+Contains the core functions for the hybrid network toolbox (initialization, training, layers, etc.).
+
+## Experimental Design (DoE)
+
+The dataset covers experiments Br1 - Br9 (see `data.xlsx`).
+
+```text
+           Br5      
+            |
+            |
+  Br1 ----- Br2     
+   |        |
+   |        |
+  Br7 ----| Br9 |---- Br8
+   |        |
+   |        |
+  Br3 ----- Br4     
+            |       
+            |       
+           Br6      
+```
+
+## Contact
+**Rui Oliveira**
+LAQV-REQUIMTE, Department of Chemistry, NOVA School of Science and Technology, NOVA University Lisbon
+Email: rmo@fct.unl.pt
